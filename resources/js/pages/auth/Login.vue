@@ -44,24 +44,31 @@ defineProps<{
 
     <Form v-bind="store.form()" :reset-on-success="['password']" v-slot="{ errors, processing }"
         class="mx-auto w-full max-w-md flex flex-col gap-6">
-        <div class="grid gap-6">
+        <div class="rounded-lg bg-card/90 p-4 sm:p-6 shadow-sm">
+            <h3 class="mb-2 text-lg font-semibold text-foreground">Sign in to your account</h3>
+            <p class="mb-4 text-sm text-muted-foreground">Use your email and password to sign in.</p>
+        </div>
+
+        <div class="grid gap-6 bg-background/90 p-6 rounded-lg shadow-sm">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email" class="text-sm font-medium">Email address</Label>
                 <Input id="email" type="email" name="email" required autofocus :tabindex="1" autocomplete="email"
-                    placeholder="email@example.com" />
-                <InputError :message="errors.email" />
+                    placeholder="email@example.com" :aria-describedby="errors.email ? 'email-error' : null"
+                    class="w-full" />
+                <InputError id="email-error" :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password" class="text-sm font-medium">Password</Label>
                     <TextLink v-if="canResetPassword" :href="request()" class="text-sm" :tabindex="5">
                         Forgot your password?
                     </TextLink>
                 </div>
                 <PasswordInput id="password" name="password" required :tabindex="2" autocomplete="current-password"
-                    placeholder="Password" />
-                <InputError :message="errors.password" />
+                    placeholder="Password" :aria-describedby="errors.password ? 'password-error' : null"
+                    class="w-full" />
+                <InputError id="password-error" :message="errors.password" />
             </div>
 
             <div class="flex items-center justify-between">
@@ -71,17 +78,19 @@ defineProps<{
                 </Label>
             </div>
 
-            <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="processing" data-test="login-button">
+            <Button type="submit"
+                class="mt-4 w-full bg-primary text-primary-foreground hover:brightness-105 focus:ring-2 focus:ring-primary/30"
+                :tabindex="4" :disabled="processing" data-test="login-button">
                 <Spinner v-if="processing" />
                 Log in
             </Button>
-        </div>
 
-        <!-- @chisel-registration -->
-        <div class="text-center text-sm text-muted-foreground">
-            Don't have an account?
-            <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+            <!-- @chisel-registration -->
+            <div class="text-center text-sm text-muted-foreground">
+                Don't have an account?
+                <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+            </div>
+            <!-- @end-chisel-registration -->
         </div>
-        <!-- @end-chisel-registration -->
     </Form>
 </template>
