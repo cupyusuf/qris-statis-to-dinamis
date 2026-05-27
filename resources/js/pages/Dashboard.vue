@@ -281,6 +281,10 @@ const handleEditQrUpload = async (profileId: number, event: Event): Promise<void
                         <textarea id="static_payload" v-model="createStaticPayload" name="static_payload" rows="7"
                             class="min-h-40 rounded-md border border-input bg-background px-3 py-2 text-sm font-mono outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                             placeholder="000201..." required></textarea>
+                        <p class="text-xs text-muted-foreground">
+                            Pastikan 4 karakter terakhir adalah CRC dan diawali tag <span class="font-mono">6304</span>
+                            (contoh: <span class="font-mono">...6304A13F</span>).
+                        </p>
                         <InputError :message="errors.static_payload" />
                     </div>
 
@@ -396,6 +400,10 @@ const handleEditQrUpload = async (profileId: number, event: Event): Promise<void
                                 v-model="editProfiles[profile.id].static_payload" name="static_payload" rows="7"
                                 class="min-h-40 rounded-md border border-input bg-background px-3 py-2 text-sm font-mono outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                                 required></textarea>
+                            <p class="text-xs text-muted-foreground">
+                                Jika muncul error CRC, koreksi 4 karakter terakhir setelah tag
+                                <span class="font-mono">6304</span>.
+                            </p>
                             <InputError :message="errors.static_payload" />
                         </div>
 

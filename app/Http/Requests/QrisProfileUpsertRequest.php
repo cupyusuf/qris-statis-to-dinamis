@@ -44,17 +44,27 @@ final class QrisProfileUpsertRequest extends FormRequest
             }
 
             if (! preg_match('/6304[0-9A-F]{4}$/', $payload)) {
-                $validator->errors()->add('static_payload', 'Static payload QRIS harus mengandung CRC (tag 63) yang valid di bagian akhir.');
+                $validator->errors()->add(
+                    'static_payload',
+                    'Akhir payload harus berformat 6304XXXX (tag CRC). Contoh suffix valid: 6304A13F.',
+                );
 
                 return;
             }
 
-            $expectedCrc = substr($payload, -4);
+            $actualCrc = substr($payload, -4);
             $payloadWithoutCrc = substr($payload, 0, -4);
             $computedCrc = $this->computeCrc16($payloadWithoutCrc);
 
-            if ($expectedCrc !== $computedCrc) {
-                $validator->errors()->add('static_payload', 'CRC static payload QRIS tidak valid.');
+            if ($actualCrc !== $computedCrc) {
+                $validator->errors()->add(
+                    'static_payload',
+                    sprintf(
+                        'CRC tidak cocok. Nilai saat ini %s, seharusnya %s. Periksa 4 karakter terakhir payload.',
+                        $actualCrc,
+                        $computedCrc,
+                    ),
+                );
             }
         });
     }
