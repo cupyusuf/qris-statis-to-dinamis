@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QrisProfileUpsertRequest;
 use App\Models\QrisProfile;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 final class QrisProfileController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(QrisProfileUpsertRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'merchant_name' => ['required', 'string', 'max:120'],
-            'static_payload' => ['required', 'string', 'max:10000'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
+        $validated = $request->validated();
 
         DB::transaction(function () use ($validated): void {
             $profile = QrisProfile::query()->create([
@@ -36,12 +32,11 @@ final class QrisProfileController extends Controller
         return to_route('dashboard');
     }
 
-    public function update(Request $request, QrisProfile $qrisProfile): RedirectResponse
+    public function update(QrisProfileUpsertRequest $request, QrisProfile $qrisProfile): RedirectResponse
     {
-        $validated = $request->validate([
-            'merchant_name' => ['required', 'string', 'max:120'],
-            'static_payload' => ['required', 'string', 'max:10000'],
-        ]);
+        $validated = $request->validated();
+
+        unset($validated['is_active']);
 
         $qrisProfile->update($validated);
 

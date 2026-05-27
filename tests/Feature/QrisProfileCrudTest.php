@@ -11,6 +11,44 @@ class QrisProfileCrudTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_rejects_invalid_static_payload_format(): void
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
+
+        $this->actingAs($user)
+            ->post('/dashboard/qris-profiles', [
+                'merchant_name' => 'Toko Invalid',
+                'static_payload' => 'abc-123-invalid',
+            ])
+            ->assertSessionHasErrors('static_payload');
+
+        $this->assertDatabaseMissing('qris_profiles', [
+            'merchant_name' => 'Toko Invalid',
+        ]);
+    }
+
+    public function test_normalizes_payload_and_merchant_name_before_store(): void
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
+
+        $this->actingAs($user)
+            ->post('/dashboard/qris-profiles', [
+                'merchant_name' => '  Toko Normalized  ',
+                'static_payload' => " 00020101 abcd  ",
+                'is_active' => true,
+            ])
+            ->assertRedirect(route('dashboard'));
+
+        $this->assertDatabaseHas('qris_profiles', [
+            'merchant_name' => 'Toko Normalized',
+            'static_payload' => '00020101ABCD',
+        ]);
+    }
+
     public function test_dashboard_can_manage_qris_profiles(): void
     {
         $user = User::factory()->create([
