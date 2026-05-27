@@ -47,6 +47,8 @@ const createStaticPayload = ref('');
 const uploadInput = ref<HTMLInputElement | null>(null);
 const uploadStatus = ref<string | null>(null);
 const uploadError = ref<string | null>(null);
+const copyStatus = ref<string | null>(null);
+const copyError = ref<string | null>(null);
 const editUploadInputs = reactive<Record<number, HTMLInputElement | null>>({});
 
 const editProfiles = reactive<Record<number, { merchant_name: string; static_payload: string }>>(
@@ -59,7 +61,15 @@ const editProfiles = reactive<Record<number, { merchant_name: string; static_pay
 );
 
 const copyPayload = async (payload: string): Promise<void> => {
-    await navigator.clipboard.writeText(payload);
+    copyStatus.value = null;
+    copyError.value = null;
+
+    try {
+        await navigator.clipboard.writeText(payload);
+        copyStatus.value = 'Payload berhasil disalin ke clipboard.';
+    } catch {
+        copyError.value = 'Gagal menyalin payload. Silakan salin manual dari kolom payload.';
+    }
 };
 
 const setEditUploadInput = (
@@ -247,10 +257,10 @@ const handleEditQrUpload = async (profileId: number, event: Event): Promise<void
                         </div>
                     </div>
 
-                    <p v-if="uploadStatus" class="mt-3 text-sm text-primary">
+                    <p v-if="uploadStatus" class="mt-3 text-sm text-primary" role="status" aria-live="polite">
                         {{ uploadStatus }}
                     </p>
-                    <p v-if="uploadError" class="mt-3 text-sm text-destructive">
+                    <p v-if="uploadError" class="mt-3 text-sm text-destructive" role="alert">
                         {{ uploadError }}
                     </p>
                 </div>
@@ -306,6 +316,12 @@ const handleEditQrUpload = async (profileId: number, event: Event): Promise<void
                     <Button type="button" variant="secondary" @click="copyPayload(activeProfile.static_payload)">
                         Copy payload
                     </Button>
+                    <p v-if="copyStatus" class="text-sm text-primary" role="status" aria-live="polite">
+                        {{ copyStatus }}
+                    </p>
+                    <p v-if="copyError" class="text-sm text-destructive" role="alert">
+                        {{ copyError }}
+                    </p>
                 </div>
 
                 <div v-else

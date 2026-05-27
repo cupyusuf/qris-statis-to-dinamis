@@ -36,23 +36,22 @@ defineOptions({
         <div class="grid gap-6 bg-background/90 p-6 rounded-lg shadow-sm">
             <div class="grid gap-2">
                 <Label for="name" class="text-sm font-medium">Nama lengkap</Label>
-                <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" name="name"
+                <Input id="name" type="text" required autofocus autocomplete="name" name="name"
                     placeholder="Nama lengkap" class="w-full" :aria-describedby="errors.name ? 'name-error' : null" />
                 <InputError id="name-error" :message="errors.name" />
             </div>
 
             <div class="grid gap-2">
                 <Label for="email" class="text-sm font-medium">Alamat email</Label>
-                <Input id="email" type="email" required :tabindex="2" autocomplete="email" name="email"
-                    placeholder="nama@contoh.com" class="w-full"
-                    :aria-describedby="errors.email ? 'email-error' : null" />
+                <Input id="email" type="email" required autocomplete="email" name="email" placeholder="nama@contoh.com"
+                    class="w-full" :aria-describedby="errors.email ? 'email-error' : null" />
                 <p class="mt-1 text-xs text-muted-foreground">Gunakan email yang valid untuk verifikasi.</p>
                 <InputError id="email-error" :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
                 <Label for="password" class="text-sm font-medium">Kata sandi</Label>
-                <PasswordInput id="password" required :tabindex="3" autocomplete="new-password" name="password"
+                <PasswordInput id="password" required autocomplete="new-password" name="password"
                     placeholder="Kata sandi" :passwordrules="passwordRules" class="w-full"
                     :aria-describedby="errors.password ? 'password-error' : null" />
                 <p class="mt-1 text-xs text-muted-foreground">Minimal 8 karakter; gunakan kombinasi huruf dan angka.</p>
@@ -61,7 +60,7 @@ defineOptions({
 
             <div class="grid gap-2">
                 <Label for="password_confirmation" class="text-sm font-medium">Konfirmasi kata sandi</Label>
-                <PasswordInput id="password_confirmation" required :tabindex="4" autocomplete="new-password"
+                <PasswordInput id="password_confirmation" required autocomplete="new-password"
                     name="password_confirmation" placeholder="Konfirmasi kata sandi" :passwordrules="passwordRules"
                     class="w-full"
                     :aria-describedby="errors.password_confirmation ? 'password-confirmation-error' : null" />
@@ -70,14 +69,14 @@ defineOptions({
 
             <Button type="submit"
                 class="mt-2 w-full bg-primary text-primary-foreground hover:brightness-105 focus:ring-2 focus:ring-primary/30"
-                tabindex="5" :disabled="processing" data-test="register-user-button">
+                :disabled="processing" data-test="register-user-button">
                 <Spinner v-if="processing" />
                 Buat akun
             </Button>
 
             <div class="text-center text-sm text-muted-foreground">
                 Sudah punya akun?
-                <TextLink :href="login()" class="underline underline-offset-4" :tabindex="6">Masuk</TextLink>
+                <TextLink :href="login()" class="underline underline-offset-4">Masuk</TextLink>
             </div>
         </div>
     </Form>

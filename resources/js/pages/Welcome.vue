@@ -185,7 +185,8 @@ watch([amount, staticPayload], renderQrImage, { immediate: true });
 
                     <div class="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-center">
                         <section
-                            class="flex flex-col items-center justify-center rounded-4xl bg-muted/40 px-5 py-6 sm:px-8 sm:py-8">
+                            class="flex flex-col items-center justify-center rounded-4xl bg-muted/40 px-5 py-6 sm:px-8 sm:py-8"
+                            aria-live="polite">
                             <div
                                 class="mb-5 inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm">
                                 Nominal aktif: Rp {{ formattedAmount }}
@@ -198,7 +199,8 @@ watch([amount, staticPayload], renderQrImage, { immediate: true });
                                     Membuat QR...
                                 </div>
                                 <template v-else>
-                                    <img v-if="qrImage" :src="qrImage" alt="QRIS dinamis"
+                                    <img v-if="qrImage" :src="qrImage"
+                                        :alt="`QRIS dinamis untuk ${props.qris.merchantName} dengan nominal Rp ${formattedAmount}`"
                                         class="h-72 w-72 rounded-[1.25rem] bg-card p-3 sm:h-80 sm:w-80" />
                                     <div v-else
                                         class="flex h-72 w-full items-center justify-center rounded-[1.25rem] bg-muted/30 text-sm text-muted-foreground">
@@ -211,13 +213,14 @@ watch([amount, staticPayload], renderQrImage, { immediate: true });
                         <section class="grid gap-4">
                             <div class="rounded-[1.75rem] border border-border bg-background p-5 sm:p-6">
                                 <p class="text-sm font-medium uppercase tracking-[0.28em] text-primary">Nominal</p>
-                                <label class="mt-4 block">
+                                <label for="qris-nominal" class="mt-4 block">
                                     <span class="sr-only">Nominal QRIS</span>
-                                    <input v-model="amount" type="number" min="1" step="1"
+                                    <input id="qris-nominal" v-model="amount" type="number" min="1" step="1"
+                                        inputmode="numeric" aria-describedby="nominal-help"
                                         class="w-full rounded-2xl border border-input bg-card px-4 py-4 text-2xl font-semibold outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/20"
                                         placeholder="3000" />
                                 </label>
-                                <p class="mt-3 text-sm leading-6 text-muted-foreground">
+                                <p id="nominal-help" class="mt-3 text-sm leading-6 text-muted-foreground">
                                     QR akan dibentuk dengan nominal ini.
                                 </p>
                             </div>

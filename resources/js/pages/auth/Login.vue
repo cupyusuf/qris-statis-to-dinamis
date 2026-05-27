@@ -52,7 +52,7 @@ defineProps<{
         <div class="grid gap-6 bg-background/90 p-6 rounded-lg shadow-sm">
             <div class="grid gap-2">
                 <Label for="email" class="text-sm font-medium">Alamat email</Label>
-                <Input id="email" type="email" name="email" required autofocus :tabindex="1" autocomplete="email"
+                <Input id="email" type="email" name="email" required autofocus autocomplete="email"
                     placeholder="nama@contoh.com" :aria-describedby="errors.email ? 'email-error' : null"
                     class="w-full" />
                 <p class="mt-1 text-xs text-muted-foreground">Masukkan email yang terdaftar pada akun Anda.</p>
@@ -62,11 +62,11 @@ defineProps<{
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
                     <Label for="password" class="text-sm font-medium">Kata sandi</Label>
-                    <TextLink v-if="canResetPassword" :href="request()" class="text-sm" :tabindex="5">
+                    <TextLink v-if="canResetPassword" :href="request()" class="text-sm">
                         Lupa kata sandi?
                     </TextLink>
                 </div>
-                <PasswordInput id="password" name="password" required :tabindex="2" autocomplete="current-password"
+                <PasswordInput id="password" name="password" required autocomplete="current-password"
                     placeholder="Password" :aria-describedby="errors.password ? 'password-error' : null"
                     class="w-full" />
                 <p class="mt-1 text-xs text-muted-foreground">Kata sandi bersifat pribadi — jangan bagikan.</p>
@@ -75,14 +75,14 @@ defineProps<{
 
             <div class="flex items-center justify-between">
                 <Label for="remember" class="flex items-center space-x-3">
-                    <Checkbox id="remember" name="remember" :tabindex="3" />
+                    <Checkbox id="remember" name="remember" />
                     <span>Ingat saya</span>
                 </Label>
             </div>
 
             <Button type="submit"
                 class="mt-4 w-full bg-primary text-primary-foreground hover:brightness-105 focus:ring-2 focus:ring-primary/30"
-                :tabindex="4" :disabled="processing" data-test="login-button">
+                :disabled="processing" data-test="login-button">
                 <Spinner v-if="processing" />
                 Masuk
             </Button>
@@ -90,7 +90,7 @@ defineProps<{
             <!-- @chisel-registration -->
             <div class="text-center text-sm text-muted-foreground">
                 Belum punya akun?
-                <TextLink :href="register()" :tabindex="5">Daftar</TextLink>
+                <TextLink :href="register()">Daftar</TextLink>
             </div>
             <!-- @end-chisel-registration -->
         </div>
