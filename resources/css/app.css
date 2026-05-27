@@ -1,0 +1,193 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans:
+        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar-background);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@layer utilities {
+
+    body,
+    html {
+        --font-sans:
+            'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
+    }
+}
+
+:root {
+    --background: hsl(36 33% 97%);
+    --foreground: hsl(24 24% 12%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(24 24% 12%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(24 24% 12%);
+    --primary: hsl(165 76% 24%);
+    --primary-foreground: hsl(0 0% 100%);
+    --secondary: hsl(40 27% 91%);
+    --secondary-foreground: hsl(24 24% 12%);
+    --muted: hsl(42 23% 94%);
+    --muted-foreground: hsl(24 12% 42%);
+    --accent: hsl(40 47% 92%);
+    --accent-foreground: hsl(24 24% 12%);
+    --destructive: hsl(0 76% 53%);
+    --destructive-foreground: hsl(0 0% 100%);
+    --border: hsl(38 24% 86%);
+    --input: hsl(38 24% 86%);
+    --ring: hsl(165 76% 24%);
+    --chart-1: hsl(165 76% 32%);
+    --chart-2: hsl(193 73% 35%);
+    --chart-3: hsl(38 87% 53%);
+    --chart-4: hsl(352 74% 60%);
+    --chart-5: hsl(262 64% 58%);
+    --radius: 1rem;
+    --sidebar-background: hsl(38 35% 96%);
+    --sidebar-foreground: hsl(24 24% 18%);
+    --sidebar-primary: hsl(165 76% 24%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(40 33% 91%);
+    --sidebar-accent-foreground: hsl(24 24% 18%);
+    --sidebar-border: hsl(38 26% 86%);
+    --sidebar-ring: hsl(165 76% 24%);
+    --sidebar: hsl(38 35% 96%);
+}
+
+.dark {
+    --background: hsl(24 24% 8%);
+    --foreground: hsl(40 18% 96%);
+    --card: hsl(24 24% 11%);
+    --card-foreground: hsl(40 18% 96%);
+    --popover: hsl(24 24% 11%);
+    --popover-foreground: hsl(40 18% 96%);
+    --primary: hsl(160 62% 45%);
+    --primary-foreground: hsl(24 24% 8%);
+    --secondary: hsl(24 16% 16%);
+    --secondary-foreground: hsl(40 18% 96%);
+    --muted: hsl(24 14% 15%);
+    --muted-foreground: hsl(32 12% 66%);
+    --accent: hsl(24 14% 16%);
+    --accent-foreground: hsl(40 18% 96%);
+    --destructive: hsl(0 84% 60%);
+    --destructive-foreground: hsl(0 0% 100%);
+    --border: hsl(24 14% 18%);
+    --input: hsl(24 14% 18%);
+    --ring: hsl(160 62% 45%);
+    --chart-1: hsl(165 76% 48%);
+    --chart-2: hsl(193 73% 55%);
+    --chart-3: hsl(38 87% 58%);
+    --chart-4: hsl(352 74% 65%);
+    --chart-5: hsl(262 64% 68%);
+    --sidebar-background: hsl(24 18% 10%);
+    --sidebar-foreground: hsl(40 18% 92%);
+    --sidebar-primary: hsl(160 62% 45%);
+    --sidebar-primary-foreground: hsl(24 24% 8%);
+    --sidebar-accent: hsl(24 14% 16%);
+    --sidebar-accent-foreground: hsl(40 18% 92%);
+    --sidebar-border: hsl(24 14% 18%);
+    --sidebar-ring: hsl(160 62% 45%);
+    --sidebar: hsl(24 18% 10%);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground antialiased;
+        min-height: 100vh;
+        background-attachment: fixed;
+        background-image:
+            radial-gradient(circle at top left, hsl(165 76% 24% / 0.12), transparent 28%),
+            radial-gradient(circle at top right, hsl(38 87% 53% / 0.12), transparent 24%),
+            linear-gradient(180deg, hsl(36 33% 98%) 0%, hsl(38 31% 95%) 48%, hsl(40 28% 92%) 100%);
+    }
+
+    .dark body {
+        background-image:
+            radial-gradient(circle at top left, hsl(165 62% 45% / 0.14), transparent 24%),
+            radial-gradient(circle at top right, hsl(38 87% 53% / 0.1), transparent 22%),
+            linear-gradient(180deg, hsl(24 24% 9%) 0%, hsl(24 20% 8%) 48%, hsl(24 18% 7%) 100%);
+    }
+
+    ::selection {
+        background: hsl(165 62% 45% / 0.24);
+        color: inherit;
+    }
+}
