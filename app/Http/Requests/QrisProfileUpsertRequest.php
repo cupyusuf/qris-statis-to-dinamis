@@ -34,6 +34,31 @@ final class QrisProfileUpsertRequest extends FormRequest
         ];
     }
 
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator): void {
+            $payload = (string) $this->input('static_payload', '');
+
+            if ($payload === '') {
+                return;
+            }
+
+            if (! preg_match('/6304[0-9A-F]{4}$/', $payload)) {
+                $validator->errors()->add('static_payload', 'Static payload QRIS harus mengandung CRC (tag 63) yang valid di bagian akhir.');
+
+                return;
+            }
+
+            $expectedCrc = substr($payload, -4);
+            $payloadWithoutCrc = substr($payload, 0, -4);
+            $computedCrc = $this->computeCrc16($payloadWithoutCrc);
+
+            if ($expectedCrc !== $computedCrc) {
+                $validator->errors()->add('static_payload', 'CRC static payload QRIS tidak valid.');
+            }
+        });
+    }
+
     protected function prepareForValidation(): void
     {
         $merchantName = trim((string) $this->input('merchant_name', ''));
@@ -43,5 +68,25 @@ final class QrisProfileUpsertRequest extends FormRequest
             'merchant_name' => $merchantName,
             'static_payload' => preg_replace('/\s+/', '', $staticPayload) ?? $staticPayload,
         ]);
+    }
+
+    private function computeCrc16(string $input): string
+    {
+        $crc = 0xFFFF;
+        $length = strlen($input);
+
+        for ($index = 0; $index < $length; $index++) {
+            $crc ^= ord($input[$index]) << 8;
+
+            for ($bit = 0; $bit < 8; $bit++) {
+                if (($crc & 0x8000) !== 0) {
+                    $crc = (($crc << 1) ^ 0x1021) & 0xFFFF;
+                } else {
+                    $crc = ($crc << 1) & 0xFFFF;
+                }
+            }
+        }
+
+        return strtoupper(str_pad(dechex($crc), 4, '0', STR_PAD_LEFT));
     }
 }
